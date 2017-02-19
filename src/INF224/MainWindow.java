@@ -37,8 +37,8 @@ public class MainWindow extends JFrame {
 		panel = new JPanel(new BorderLayout());
 		panel.setOpaque(true);
 		
-		btn1 = new JButton("Add Text1");
-		btn2 = new JButton("Add Text2");
+		btn1 = new JButton("Print");
+		btn2 = new JButton("Play");
 		btn3 = new JButton("Exit");
 		
 		//btn1.addActionListener(new AddTextListener1());
@@ -46,7 +46,7 @@ public class MainWindow extends JFrame {
 		btn3.addActionListener(new ExitListener());
 		
 		text = new JTextArea();
-		text.setColumns(50);
+		text.setColumns(70);
 		text.setLineWrap(true);
 		text.setRows(10);
 		text.setWrapStyleWord(true);
@@ -61,17 +61,17 @@ public class MainWindow extends JFrame {
 		panel.add(textScroll, BorderLayout.SOUTH);
 		
 		menuBar = new JMenuBar();
-		menu = new JMenu("Add Text");
+		menu = new JMenu("Command");
 		JMenuItem mItem1, mItem2;
 		
-		Action addText1 = new AddTextAction("AddText 1", "Action: add text 1 is actived!\n");
-		Action addText2 = new AddTextAction("AddText 2", "Action: add text 2 is actived!\n");
+		Action addText1 = new AddTextAction("Print", "PRINT");
+		Action addText2 = new AddTextAction("Play", "PLAY");
 		mItem1 = new JMenuItem(addText1);
 		mItem2 = new JMenuItem(addText2);
 		mItem1.setIcon(null);
 		mItem2.setIcon(null);
-		mItem1.getAccessibleContext().setAccessibleDescription("This add a line into the text area.");
-		mItem2.getAccessibleContext().setAccessibleDescription("This add another line into the text area.");
+		mItem1.getAccessibleContext().setAccessibleDescription("Print information by name.");
+		mItem2.getAccessibleContext().setAccessibleDescription("Play multimedia by name.");
 		menu.add(mItem1);
 		menu.add(mItem2);
 		menuBar.add(menu);
@@ -185,14 +185,24 @@ public class MainWindow extends JFrame {
 	class AddTextAction extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 		
-		private String str;
+		private String command;
 		public AddTextAction(String text, String s) {
 			super(text);
-			str = s;
+			command = s;
 		}
 		
 		public void actionPerformed(ActionEvent e) {
-			text.append(str);
+			String request, response;
+			String name = entry.getText();
+			if(name.length() == 0) {
+				JFrame diag = new JFrame("Error: empty name");
+				JOptionPane.showMessageDialog(diag, "You must input the name!", "Error: empty name", JOptionPane.ERROR_MESSAGE);
+				
+			} else {
+				request = command + " " + name;
+				response = send(request);
+				text.append(response);
+			}
 		}
 	}
 }
