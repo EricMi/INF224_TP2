@@ -1,41 +1,79 @@
 package INF224;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class MainWindow extends JFrame {
-	JButton btn1, btn2, btn3;
-	JTextArea t1;
+	/**
+	 * Set class version
+	 */
+	private static final long serialVersionUID = 1L;
 	
-	public static void main(String argv[]) {
-		new MainWindow();
-	}
+	protected JButton btn1, btn2, btn3;
+	protected JTextArea text;
+	protected JScrollPane textScroll;
+	protected static JPanel panel;
 	
 	public MainWindow() {
-		b1 = new JButton("Add Text1");
-		add(b1);
-		add(b2 = new JButton("Add Text2"));
-		add(b3 = new JButton("Exit"));
-		add(t1 = new JTextArea());
+		super("Main Window");
 		
-		b1.addActionListener(new AddTextListener1());
-		b2.addActionListener(new AddTextListener2());
-		b3.addActionListener(new ExitListener());
+		setLayout(new BorderLayout());
 		
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		pack();
-		setVisible(true);
+		panel = new JPanel(new BorderLayout());
+		panel.setOpaque(true);
+		
+		btn1 = new JButton("Add Text1");
+		btn2 = new JButton("Add Text2");
+		btn3 = new JButton("Exit");
+		
+		btn1.addActionListener(new AddTextListener1());
+		btn2.addActionListener(new AddTextListener2());
+		btn3.addActionListener(new ExitListener());
+		
+		text = new JTextArea();
+		text.setColumns(22);
+		text.setLineWrap(true);
+		text.setRows(10);
+		text.setWrapStyleWord(true);
+		text.setEditable(false);
+		
+		textScroll = new JScrollPane();
+		textScroll.setViewportView(text);
+		
+		panel.add(btn1, BorderLayout.WEST);
+		panel.add(btn2, BorderLayout.CENTER);
+		panel.add(btn3, BorderLayout.EAST);
+		panel.add(textScroll, BorderLayout.SOUTH);
+	}
+	
+	private static void createAndShowGUI() {
+		MainWindow frame = new MainWindow();		
+		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		frame.setContentPane(panel);
+		frame.pack();
+		frame.setVisible(true);
+	}
+	
+	public static void main(String argv[]) {
+		// Schedule a job for the event-dispatching thread:
+		// crating and showing this application's GUI.
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				createAndShowGUI();
+			}
+		});
 	}
 	
 	class AddTextListener1 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			t1.append("Button \"Add Text1\" actived.\n");
+			text.append("Button \"Add Text1\" actived.\n");
 		}
 	}
 	
 	class AddTextListener2 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			t1.append("Button \"Add Text2\" actived.\n");
+			text.append("Button \"Add Text2\" actived.\n");
 		}
 	}
 	
