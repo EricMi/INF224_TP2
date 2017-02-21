@@ -1,8 +1,25 @@
+//***************************************************************************************
+//
+//! @file MainWindow.java
+//! La fenêtre pour intervenir avec client.
+//!
+//! @author    Pengfei Mi
+//! @date      2017-1
+//
+//***************************************************************************************
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.*;
+
+/**
+ * @class MainWindow header-file MainWindow.java
+ * @brief
+ * La class crée un fenêtre graphic par java swing pour intervenir avec client et communiquer avet le serveur.
+ * @see MyBase
+ */
 
 public class MainWindow extends JFrame {
 	/**
@@ -26,6 +43,12 @@ public class MainWindow extends JFrame {
 
 	protected JToolBar toolBar;
 
+	/**
+	 * @brief
+	 * Le constructeur, il crée un fenêtre et initialiser les éléments graphiques.
+	 * Il se connecte avec le serveur par socket TCP.
+	 * Il intervient avec client et envoyer le command et afficher la réponse.
+	 */
 	public MainWindow(String host, int port) throws UnknownHostException, IOException {
 		// Graphic part:
 		super("Main Window");
@@ -62,8 +85,8 @@ public class MainWindow extends JFrame {
 		menu = new JMenu("Command");
 		JMenuItem mItem1, mItem2;
 
-		Action addText1 = new AddTextAction("Print", "PRINT");
-		Action addText2 = new AddTextAction("Play", "PLAY");
+		Action addText1 = new Command("Print", "PRINT");
+		Action addText2 = new Command("Play", "PLAY");
 		mItem1 = new JMenuItem(addText1);
 		mItem2 = new JMenuItem(addText2);
 		mItem1.setIcon(null);
@@ -109,6 +132,9 @@ public class MainWindow extends JFrame {
 		}
 	}
 
+	/**
+     * @brief Méthode pour envoyer un demmand et récupérer la réponse.
+     */
 	public String send(String request) {
 		try {
 			request += "\n";
@@ -129,6 +155,10 @@ public class MainWindow extends JFrame {
 		}
 	}
 
+	/**
+     * @brief
+	 * Méthode principale qui crée un fênetre et intevient avec client.
+     */
 	public static void main(final String[] args) {
 		// Schedule a job for the event-dispatching thread:
 		// crating and showing this application's GUI.
@@ -174,17 +204,28 @@ public class MainWindow extends JFrame {
 	}
 	*/
 
+	/**
+	 * @class ExitListener header-file MainWindow.java
+	 * @brief
+	 * Event listener pour le button Exit qui quitte le programme.
+	 */
 	class ExitListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			System.exit(0);
 		}
 	}
 
-	class AddTextAction extends AbstractAction {
+	/**
+	 * @class Command header-file MainWindow.java
+	 * @brief
+	 * Event listener pour les buttons de commands.
+	 * Elle a un membre privé string pour identifier le type de command.
+	 */
+	class Command extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
 		private String command;
-		public AddTextAction(String text, String s) {
+		public Command(String text, String s) {
 			super(text);
 			command = s;
 		}
