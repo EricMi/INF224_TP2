@@ -129,15 +129,15 @@ public class MainWindow extends JFrame {
 		}
 	}
 
-	public static void main(String argv[]) {
+	public static void main(final String[] args) {
 		// Schedule a job for the event-dispatching thread:
 		// crating and showing this application's GUI.
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				String host = DEFAULT_HOST;
 				int port = DEFAULT_PORT;
-				if(argv.length >= 1) host = argv[0];
-				if(argv.length >= 2) port = Integer.parseInt(argv[1]);
+				if(args.length >= 1) host = args[0];
+				if(args.length >= 2) port = Integer.parseInt(args[1]);
 
 				MainWindow frame = null;
 
